@@ -17,10 +17,19 @@ class DownloadEventsCommand extends ContainerAwareCommand
     {
         $output->writeln('Start downloading activities');
 
-        $activitiesService = $this->getContainer()->get('app.activities_download_service');
-        $activitiesData = $activitiesService->getActivitiesDataArray();
+        $activityService = $this->getContainer()->get('app.activity_download_service');
+        $activityFactory = $this->getContainer()->get('app.activity_factory');
+
+        $xmlData = $activityService->getXmlDataAsArray();
+
+        foreach ($xmlData['channel']['item'] as $key => $value) {
+            $activityDataArray = $activityService->getActivityDataArray($value);
+            $activityFactory->createActivity($activityDataArray);
+            if ($key % 10 == 0)  {
+                $this->getContainer()->get('doctrine.orm.default_entity_manager')->clear();
+            }
+        }
 
         $output->writeln('Stop downloading activities');
-
     }
 }

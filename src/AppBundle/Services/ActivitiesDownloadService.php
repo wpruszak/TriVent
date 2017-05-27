@@ -9,32 +9,30 @@ class ActivitiesDownloadService
 {
     const RSA_ACTIVITIES_URL = 'http://rss.trojmiasto.pl/rss,23.xml';
 
-    public function getActivitiesDataArray()
+    public function getActivityDataArray($value)
     {
-        $xmlData = $this->getXmlDataAsArray();
-
-        $dataArray = [];
-        foreach ($xmlData['channel']['item'] as $key => $value) {
-            $activityLinkData = $this->getActivityDataFromUrl($value['link']);
-            if (!empty($activityLinkData)) {
-                $activityEntityData = [
-                    'title' => $value['title'],
-                    'link' => $value['link'],
-                    'description' => $value['description']['#text'],
-                    'pubDate' => new \DateTime($value['pubDate']),
-                    'place' => $activityLinkData['place']
-                ];
-                if (array_key_exists('dateStart', $activityLinkData['date'])) {
-                    $activityEntityData['dateStart'] = $activityLinkData['date']['dateStart'];
-                }
-                if (array_key_exists('dateEnd', $activityLinkData['date'])) {
-                    $activityEntityData['dateEnd'] = $activityLinkData['date']['dateEnd'];
-                }
-                $dataArray[$key] = $activityEntityData;
+        $activityLinkData = $this->getActivityDataFromUrl($value['link']);
+        if (!empty($activityLinkData)) {
+            $activityEntityData = [
+                'title' => $value['title'],
+                'link' => $value['link'],
+                'description' => $value['description']['#text'],
+                'pubDate' => new \DateTime($value['pubDate']),
+                'place' => $activityLinkData['place']
+            ];
+            if (array_key_exists('dateStart', $activityLinkData['date'])) {
+                $activityEntityData['dateStart'] = $activityLinkData['date']['dateStart'];
+            } else {
+                $activityEntityData['dateStart'] = null;
             }
+            if (array_key_exists('dateEnd', $activityLinkData['date'])) {
+                $activityEntityData['dateEnd'] = $activityLinkData['date']['dateEnd'];
+            } else {
+                $activityEntityData['dateEnd'] = null;
+            }
+            return $activityEntityData;
         }
-
-        return null;
+        return [];
     }
 
     /**
@@ -45,8 +43,8 @@ class ActivitiesDownloadService
     {
         $html = file_get_contents($link);
         $crawler = new Crawler($html);
-        $place = $this->getActivityPlace($crawler);
-        $date = $this->getActivityDates($crawler);
+        $place = $this->getActivityPlace(clone $crawler);
+        $date = $this->getActivityDates(clone $crawler);
 
         return [
             'place' => $place,
@@ -63,6 +61,7 @@ class ActivitiesDownloadService
         $place = $crawler->filterXPath('//*[@class="adress"][2]');
         if ($place->getNode(0) != null) {
             $place = $place->getNode(0)->nodeValue;
+            $place = preg_replace('/\([^)]+\)/', '', $place);
             return trim($place);
         }
         return null;
@@ -89,14 +88,22 @@ class ActivitiesDownloadService
             $timeString = trim($timeElement->getNode(0)->nodeValue);
             $times = explode('-', $timeString);
             if (count($times) > 1) {
-                return [
-                    'dateStart' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . trim(array_shift($times))),
-                    'dateEnd' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . trim(array_shift($times)))
+                $timesData = [
+                    'dateStart' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . $this->getFilteredTime(array_shift($times))),
+                    'dateEnd' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . $this->getFilteredTime(array_shift($times)))
                 ];
+                return $timesData;
+            } elseif (count(explode(',', $timeString)) > 1) {
+                $times = explode(',', $timeString);
+                $timesData = [
+                    'dateStart' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . $this->getFilteredTime(array_shift($times))),
+                    'dateEnd' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . $this->getFilteredTime(array_shift($times)))
+                ];
+                return $timesData;
             }
 
             return [
-                'dateStart' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . trim($timeString))
+                'dateStart' => \DateTime::createFromFormat('j n Y G:i', trim($dateString) . $this->getFilteredTime($timeString))
             ];
         }
 
@@ -153,10 +160,19 @@ class ActivitiesDownloadService
     /**
      * @return array|mixed|string
      */
-    private function getXmlDataAsArray()
+    public function getXmlDataAsArray()
     {
         $xmlContent = file_get_contents(self::RSA_ACTIVITIES_URL);
         $xmlEncoder = new XmlEncoder();
         return $xmlEncoder->decode($xmlContent, 'xml');
+    }
+
+    /**
+     * @param $timeString
+     * @return string
+     */
+    private function getFilteredTime($timeString)
+    {
+        return trim(str_replace('.', ':', $timeString));
     }
 }

@@ -4,5 +4,11 @@ parameters:
     #parameter_name: value
 
 services:
-    app.activities_download_service:
+    app.activity_download_service:
         class: AppBundle\Services\ActivitiesDownloadService
+
+
+#Factories
+    app.activity_factory:
+        class: AppBundle\Factory\ActivityFactory
+        arguments: ["@doctrine.orm.entity_manager"]

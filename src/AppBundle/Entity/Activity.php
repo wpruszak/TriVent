@@ -52,21 +52,21 @@ class Activity
     /**
      * @var string
      *
-     * @ORM\Column(name="place", type="string", length=255)
+     * @ORM\Column(name="place", type="string", length=255, nullable=true)
      */
     private $place;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_from", type="datetime")
+     * @ORM\Column(name="date_from", type="datetime", nullable=true)
      */
     private $dateFrom;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_to", type="datetime")
+     * @ORM\Column(name="date_to", type="datetime", nullable=true)
      */
     private $dateTo;
 
