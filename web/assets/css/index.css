@@ -1,0 +1,84 @@
+body {
+    height: 100%;
+    background: #3E4649;
+    color: #f7f7f7;
+    font-family: 'Montserrat', sans-serif;
+}
+h1,
+h2 {
+    font-weight: bold;
+}
+p {
+    font-size: 46px;
+    color: #cdcdcd;
+}
+.navbar {
+    margin-bottom: 0;
+}
+.jumbotron {
+    background: #4682B4;/
+    color: white;
+    text-align: center;
+}
+.jumbotron p {
+    color: white;
+    font-size: 26px;
+}
+
+.navbar-inverse {
+    background: #2E2F31;
+    border: 0;
+}
+.dropdown-menu {
+    background: #2E2F31;
+    border-radius: 0;
+    border: 0;
+}
+.navbar-inverse .navbar-nav li a {
+    color: #f7f7f7;
+    font-size: 16px;
+}
+.navbar-inverse .navbar-nav li a:hover {
+    background: #27A967;
+}
+.navbar-inverse .navbar-nav .dropdown-menu li a:hover {
+    background: #2C463C;
+}
+.dropdown-menu li a {
+    padding: 10px;
+}
+.btn-primary {
+    color: #000 ;
+    background-color: transparent;
+    border-color: white;
+    margin-bottom: 5px;
+}
+.btn-primary:hover {
+    color: #27A967;
+    background-color: white;
+    border-color: white;
+}
+.glyphicon-large {
+    font-size: 50px;
+}
+.call-to-action {
+    text-align: center;
+
+}
+.call-to-action p {
+    margin-bottom: 30px;
+    font-family: sans-serif;
+}
+
+.footer {
+    position:absolute;
+    bottom:0px;
+    width: 100%;
+
+    background-color: #000;
+
+}
+.btn-primary:hover {
+    color: #000 !important;
+    background: none !important;
+}

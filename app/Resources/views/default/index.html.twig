@@ -1,96 +1,47 @@
 {% extends 'base.html.twig' %}
+
+
 {% block css %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assetss/css/lists.css') }}">
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
 {% endblock %}
 {% block body %}
-
-
     <div class="jumbotron">
         <div class="container">
-            <h1 class="headline">TriVent</h1>
-            <p>Twoje Trojmiasto w jednym miejscu</p>
+            <h1 class="headline">TriVent.</h1>
+            <p>Twoje Trójmiasto w jednym miejscu.</p>
             <br>
-
+            <p>
+                <a class="btn btn-primary btn-lg" href="{{ path('default_list') }}" role="button">Przejdz do wydarzen     &raquo;</a>
+            </p>
         </div>
     </div>
+
+    <div>
 
     <section class="call-to-action">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View details </a></p>
-                </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View details </a></p>
-                </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View details </a></p>
-                </div>
 
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View details </a></p>
+                    <span class="glyphicon glyphicon-list-alt glyphicon-large" aria-hidden="true"></span>
+                    <h3>Znajdz wydarzenie w Trójmieście</h3>
                 </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View details </a></p>
+                <div class="col-md-4">
+                    <span class="glyphicon glyphicon-random glyphicon-large" aria-hidden="true"></span>
+                    <h3>Sprawdz najprostszy dojazd</h3>
                 </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View details </a></p>
+                <div class="col-md-4">
+                    <span class="glyphicon glyphicon-glass glyphicon-large" aria-hidden="true"></span>
+                    <h3>Have fun</h3>
+
                 </div>
             </div>
         </div>
     </section>
+
     <footer class="footer">
-        <div class="container">
-            <span class="text-muted">Place sticky footer content here.</span>
-        </div>
+            <span class="text-muted">3CT Hack 2017.</span>
     </footer>
 
-{% endblock %}
-
-{% block stylesheets %}
-<style>
-    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
-    h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
-    h1 { font-size: 36px; }
-    h2 { font-size: 21px; margin-bottom: 1em; }
-    p { margin: 0 0 1em 0; }
-    a { color: #0000F0; }
-    a:hover { text-decoration: none; }
-    code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
-    #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
-    #container { padding: 2em; }
-    #welcome, #status { margin-bottom: 2em; }
-    #welcome h1 span { display: block; font-size: 75%; }
-    #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
-    #icon-book { display: none; }
-
-    @media (min-width: 768px) {
-        #wrapper { width: 80%; margin: 2em auto; }
-        #icon-book { display: inline-block; }
-        #status a, #next a { display: block; }
-
-        @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
-    }
-</style>
 {% endblock %}
