@@ -38,6 +38,15 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        google_maps_api_key: '%google_maps_api_key%'
+
+knp_paginator:
+    page_range: 5
+    default_options:
+        page_name: page
+    template:
+        pagination: 'pagination/pagination.html.twig'
 
 # Doctrine Configuration
 doctrine:

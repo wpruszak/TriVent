@@ -1,22 +1,21 @@
 {% extends 'base.html.twig' %}
 
-
 {% block css %}
-{{ parent() }}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
 {% endblock %}
+
 {% block body %}
     <div class="jumbotron">
         <div class="container">
-            <h1 class="headline">TriVent.</h1>
+            <h1 class="headline">TriVent</h1>
             <p>Twoje Trójmiasto w jednym miejscu.</p>
             <br>
             <p>
-                <a class="btn btn-primary btn-lg" href="{{ path('default_list') }}" role="button">Przejdz do wydarzen     &raquo;</a>
+                <a class="btn btn-primary btn-lg" href="{{ path('default_list') }}" role="button">Przejdź do wydarzeń &raquo;</a>
             </p>
         </div>
     </div>
-
 
     <section class="call-to-action">
         <div class="container">
@@ -39,8 +38,137 @@
         </div>
     </section>
 
+    <section class="flex-center marginbottom">
+        <input style="color: #4c4c4c;" id="google-maps-search" class="controls" type="text" placeholder="Szukaj lokalizacji">
+        <div style="height: 500px !important; width: 500px;" id="google-maps-container"></div>
+    </section>
+
     <footer class="footer">
+        <div class="container">
             <span class="text-muted">3CT Hack 2017.</span>
+        </div>
     </footer>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var map;
+        var currentPositionMarker;
+        var geocoder;
+
+        var directionsDisplay;
+        
+        function getLatLng() {
+            return {
+                lat: currentPositionMarker.position.lat(),
+                lng: currentPositionMarker.position.lng()
+            };
+        }
+
+        function calcRoute(orgin, destination) {
+            var directionsService = new google.maps.DirectionsService();
+            var request = {
+                origin: orgin,
+                destination: destination,
+                travelMode: google.maps.TravelMode["DRIVING"]
+            };
+            directionsService.route(request, function(response, status) {
+                if (status == 'OK') {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+        }
+
+        function initMap() {
+
+            navigator.geolocation.getCurrentPosition(function (location) {
+                directionsDisplay = new google.maps.DirectionsRenderer();
+                var center = {
+                    lat: location.coords.latitude,
+                    lng: location.coords.longitude
+                };
+
+                map = new google.maps.Map(document.getElementById('google-maps-container'), {
+                    center: center,
+                    zoom: 8,
+                    mapTypeId: 'roadmap'
+                });
+                directionsDisplay.setMap(map);
+
+                geocoder = new google.maps.Geocoder();
+
+                var input = document.getElementById('google-maps-search');
+                var searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP].push(input);
+
+                map.addListener('bounds_changed', function() {
+                    searchBox.setBounds(map.getBounds());
+                });
+
+                currentPositionMarker = new google.maps.Marker({
+                    position: center,
+                    map: map,
+                    title: 'Twoja lokalizacja.'
+                });
+
+                searchBox.addListener('places_changed', function() {
+                    var places = searchBox.getPlaces();
+
+                    if (places.length == 0) {
+                        return;
+                    }
+
+                    var place = places[0];
+
+                    currentPositionMarker.setMap(null);
+
+                    var bounds = new google.maps.LatLngBounds();
+                    if (!place.geometry) {
+                        return;
+                    }
+
+                    currentPositionMarker = new google.maps.Marker({
+                        map: map,
+                        title: place.name,
+                        position: place.geometry.location
+                    });
+
+                    if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+
+                    map.fitBounds(bounds);
+                });
+
+                google.maps.event.addListener(map, 'click', function (event) {
+                    if(currentPositionMarker) {
+                        currentPositionMarker.setMap(null);
+                        calcRoute(event.latLng, {
+                            lat: 54.236340214413424,
+                            lng: 18.424072265625
+                        });
+                    }
+
+                    console.log(event.latLng.lat());
+                    console.log(event.latLng.lng());
+
+
+
+
+
+                    currentPositionMarker = new google.maps.Marker({
+                        position: event.latLng,
+                        map: map,
+                        title: 'Twoja lokalizacja.'
+                    });
+                });
+            });
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initMap"
+            async defer></script>
 {% endblock %}
