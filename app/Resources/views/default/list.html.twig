@@ -18,54 +18,26 @@
     <section class="call-to-action">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right"
-                                                              aria-hidden="true"></span> View details </a></p>
-                </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right"
-                                                              aria-hidden="true"></span> View details </a></p>
-                </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right"
-                                                              aria-hidden="true"></span> View details </a></p>
-                </div>
+                {% for activity in activities %}
+                    <div class="col-md-4 marginbottom">
+                        <h2>{{ activity.title }}</h2>
+                        <h3>{{ activity.dateFrom|date('Y-m-d G:i') }} - {{ activity.dateTo|date('Y-m-d G:i') }}</h3>
+                        <h3>{{ activity.place }}</h3>
+                        <h4> {{ activity.description }} </h4>
+                        <p><a class="navbar-brand" href="{{ activity.link }}"><span class="glyphicon glyphicon-chevron-right"
+                                                                  aria-hidden="true"></span> View details </a></p>
+                    </div>
+                {% endfor %}
 
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right"
-                                                              aria-hidden="true"></span> View details </a></p>
-                </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right"
-                                                              aria-hidden="true"></span> View details </a></p>
-                </div>
-                <div class="col-md-4 marginbottom">
-                    <h2>WYDARZENIE</h2>
-                    <h3>data</h3>
-                    <h4> opis </h4>
-                    <p><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-chevron-right"
-                                                              aria-hidden="true"></span> View details </a></p>
-                </div>
             </div>
         </div>
     </section>
+
+
     <footer class="footer">
-        <span class="text-muted">3CT Hack 2017.</span>
+        <div class="container">
+            <span class="text-muted">3CT Hack 2017.</span>
+        </div>
     </footer>
 
 {% endblock %}
