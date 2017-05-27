@@ -78,3 +78,7 @@ p {
     background-color: #000;
 
 }
+.btn-primary:hover {
+    color: #000 !important;
+    background: none !important;
+}
