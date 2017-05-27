@@ -59,10 +59,16 @@ class Activity
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date_from", type="datetime")
      */
-    private $date;
+    private $dateFrom;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_to", type="datetime")
+     */
+    private $dateTo;
 
     /**
      * Get id
@@ -197,13 +203,13 @@ class Activity
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param \DateTime $dateFrom
      *
      * @return Activity
      */
-    public function setDate($date)
+    public function setDateFrom($dateFrom)
     {
-        $this->date = $date;
+        $this->dateFrom = $dateFrom;
 
         return $this;
     }
@@ -213,9 +219,27 @@ class Activity
      *
      * @return \DateTime
      */
-    public function getDate()
+    public function getDateFrom()
     {
-        return $this->date;
+        return $this->dateFrom;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateTo()
+    {
+        return $this->dateTo;
+    }
+
+    /**
+     * @param \DateTime $dateTo
+     */
+    public function setDateTo($dateTo)
+    {
+        $this->dateTo = $dateTo;
+    }
+
+
 }
 

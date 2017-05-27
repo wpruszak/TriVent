@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assetss/css/lists.css') }}">
+{% endblock %}
+{% block body %}
+
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="headline">TriVent</h1>
+            <p>Twoje Trojmiasto w jednym miejscu</p>
+            <br>
+
+        </div>
+    </div>
+
+    <section class="call-to-action">
+        <div class="container">
+            <div class="row">
+                {% for activity in activities %}
+                    <div class="col-md-4 marginbottom">
+                        <h2>{{ activity.title }}</h2>
+                        <h3>{{ activity.dateFrom|date('Y-m-d G:i') }} - {{ activity.dateTo|date('Y-m-d G:i') }}</h3>
+                        <h3>{{ activity.place }}</h3>
+                        <h4> {{ activity.description }} </h4>
+                        <p><a class="navbar-brand" href="{{ activity.link }}"><span class="glyphicon glyphicon-chevron-right"
+                                                                  aria-hidden="true"></span> View details </a></p>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">3CT Hack 2017.</span>
+        </div>
+    </footer>
+
+{% endblock %}

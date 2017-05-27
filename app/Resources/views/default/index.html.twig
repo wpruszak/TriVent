@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block css %}
 {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
@@ -11,16 +12,17 @@
             <p>Twoje Trójmiasto w jednym miejscu.</p>
             <br>
             <p>
-                <a class="btn btn-primary btn-lg" href="#" role="button">Przejdz do wydarzen     &raquo;</a>
+                <a class="btn btn-primary btn-lg" href="{{ path('default_list') }}" role="button">Przejdz do wydarzen     &raquo;</a>
             </p>
         </div>
     </div>
 
-    <div>
+
     <section class="call-to-action">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
+
                     <span class="glyphicon glyphicon-list-alt glyphicon-large" aria-hidden="true"></span>
                     <h3>Znajdz wydarzenie w Trójmieście</h3>
                 </div>
@@ -31,12 +33,11 @@
                 <div class="col-md-4">
                     <span class="glyphicon glyphicon-glass glyphicon-large" aria-hidden="true"></span>
                     <h3>Have fun</h3>
+
                 </div>
             </div>
         </div>
     </section>
-    </div>
-
 
     <footer class="footer">
             <span class="text-muted">3CT Hack 2017.</span>

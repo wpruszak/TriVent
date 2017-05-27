@@ -2,33 +2,29 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Activity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="default_index")
      */
     public function indexAction(Request $request)
     {
-        $kernel = $this->get('kernel');
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
 
-        $input = new ArrayInput(array(
-            'command' => 'event:download',
-        ));
-        $output = new BufferedOutput();
-        $application->run($input, $output);
-
-        $x = 2;
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        return $this->render('default/index.html.twig');
+    }
+    /**
+     * @Route("/list", name="default_list")
+     */
+    public function listAction(Request $request)
+    {
+        $activities = $this->getDoctrine()->getRepository(Activity::class)->findAll();
+        return $this->render('default/list.html.twig', [
+            'activities' => $activities
         ]);
     }
 }
