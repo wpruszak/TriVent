@@ -91,3 +91,23 @@ body {
 .marginbottom{
     margin-bottom: 20px;
 }
+
+/* MODAL */
+
+.modal {
+    color: #FFFFFF;
+}
+.modal-content {
+    background-color: #3E4649;
+}
+.modal-footer > button {
+    color: #000000;
+}
+.modal-title {
+    text-align: center;
+    font-size: 30px;
+}
+.modal-subtitle {
+    text-align: center;
+    font-size: 20px;
+}
