@@ -198,3 +198,38 @@ a.morelink {
 .comment {
     margin: 10px;
 }
+
+.map-container {
+    text-align: center;
+}
+
+#map {
+    width:500px;
+    height: 500px;
+    display: inline-block;
+}
+#menu {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.subcontainer {
+    text-align: center;
+}
+
+.headline {
+    display: inline-block;
+}
+
+.localization-container {
+    text-align: center;
+}
+.localization-field {
+    display: inline-block;
+}
+#google-maps-search {
+    color: #4c4c4c;
+}
+#google-maps-container {
+    height: 500px !important;
+    width: 500px;
+}

@@ -20,18 +20,17 @@
                 </div>
                 <div class="modal-body">
                 </div>
-                <div style="text-align: center">
-                    <div id="map" style="width:500px;height: 500px; display: inline-block;"></div>
+                <div class="map-container">
+                    <div id="map"></div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-default" target="_blank">Więcej Szczegółów</a>
+                    <a class="btn btn-default redirect-button" target="_blank">Więcej Szczegółów</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="navbar navbar-inverse navbar-fixed-top scroll-me" style="background-color: rgba(0, 0, 0, 0.4);"
-         id="menu">
+    <div class="navbar navbar-inverse navbar-fixed-top scroll-me" id="menu">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -58,8 +57,8 @@
     <div id="full-page">
         <section class="section" data-anchor="trivent">
             <div class="container">
-                <div style="text-align: center;">
-                    <h1 style="display: inline-block;" class="headline">TriVent</h1>
+                <div class="subcontainer">
+                    <h1 class="headline">TriVent</h1>
                 </div>
                 <div class="row text-center header">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-anim-type="fade-in-up">
@@ -97,17 +96,17 @@
         </section>
 
         <section class="section flex-center marginbottom" data-anchor="location">
-            <div class="container" style="text-align: center;">
+            <div class="container localization-container">
                 <div class="row text-center header">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-anim-type="fade-in-up">
                         <h3>Twoja lokalizacja</h3>
                         <hr>
                     </div>
                 </div>
-                <div style="display: inline-block;">
-                    <input style="color: #4c4c4c;" id="google-maps-search" class="controls" type="text"
+                <div class="localization-field">
+                    <input id="google-maps-search" class="controls" type="text"
                            placeholder="Szukaj lokalizacji">
-                    <div style="height: 500px !important; width: 500px;" id="google-maps-container"></div>
+                    <div id="google-maps-container"></div>
                 </div>
             </div>
         </section>
