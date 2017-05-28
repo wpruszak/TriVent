@@ -2,20 +2,20 @@
     <div class="pagination">
         {% if first is defined and current != first %}
             <span class="first">
-            <a onclick="paginate('{{ path(route, query|merge({(pageParameterName): first})) }}')">&lt;&lt;</a>
+            <a onclick="paginate('{{ path('default_paginate', query|merge({(pageParameterName): first})) }}')">&lt;&lt;</a>
         </span>
         {% endif %}
 
         {% if previous is defined %}
             <span class="previous">
-            <a onclick="paginate('{{ path(route, query|merge({(pageParameterName): previous})) }}')">&lt;</a>
+            <a onclick="paginate('{{ path('default_paginate', query|merge({(pageParameterName): previous})) }}')">&lt;</a>
         </span>
         {% endif %}
 
         {% for page in pagesInRange %}
             {% if page != current %}
                 <span class="page">
-                <a onclick="paginate('{{ path(route, query|merge({(pageParameterName): page})) }}')">{{ page }}</a>
+                <a onclick="paginate('{{ path('default_paginate', query|merge({(pageParameterName): page})) }}')">{{ page }}</a>
             </span>
             {% else %}
                 <span class="current">{{ page }}</span>
@@ -25,13 +25,13 @@
 
         {% if next is defined %}
             <span class="next">
-            <a onclick="paginate('{{ path(route, query|merge({(pageParameterName): next})) }}')">&gt;</a>
+            <a onclick="paginate('{{ path('default_paginate', query|merge({(pageParameterName): next})) }}')">&gt;</a>
         </span>
         {% endif %}
 
         {% if last is defined and current != last %}
             <span class="last">
-            <a onclick="paginate('{{ path(route, query|merge({(pageParameterName): last})) }}')">&gt;&gt;</a>
+            <a onclick="paginate('{{ path('default_paginate', query|merge({(pageParameterName): last})) }}')">&gt;&gt;</a>
         </span>
         {% endif %}
     </div>
@@ -39,6 +39,10 @@
 
 <script>
     function paginate(url) {
-        console.log(url);
+        $.post(url, {}, function (response) {
+            console.log(response);
+            $('.navigation').html(response['pagination_widget']);
+            $('.pagination-container').html(response['list']);
+        });
     }
 </script>

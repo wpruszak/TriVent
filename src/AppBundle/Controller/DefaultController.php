@@ -6,6 +6,7 @@ use AppBundle\Entity\Activity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -44,6 +45,7 @@ class DefaultController extends Controller
 
     /**
      * @param Request $request
+     * @return JsonResponse
      *
      * @Route("/paginate", name="default_paginate")
      * @Method("POST")
@@ -55,10 +57,17 @@ class DefaultController extends Controller
             ->createQueryBuilder('a')
             ->getQuery();
 
-        $paginator = $this->get('knp_paginator')->paginate(
+        $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
             $request->get('page') ?? 1,
             12
         );
+
+        $params = ['pagination' => $pagination];
+
+        return new JsonResponse([
+            'list' => $this->renderView('default/list_partial.html.twig', $params),
+            'pagination_widget' => $this->renderView('default/pagination_widget.html.twig', $params)
+        ]);
     }
 }
