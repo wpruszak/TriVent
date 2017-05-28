@@ -146,10 +146,10 @@ class ActivitiesDownloadService
         $dateString = preg_replace_callback('/(?:\d+(?:-\d+)?\s*)(?P<month>\p{L}+)(?:\s*)(\d{4})/u', function ($match) use ($dateString, $monthsFirst, $monthsSecond) {
             if (in_array($match['month'], $monthsFirst)) {
                 $key = array_search($match['month'], $monthsFirst) + 1;
-                return str_replace($match['month'], $key + 1, $dateString);
+                return str_replace($match['month'], $key, $dateString);
             } elseif (in_array($match['month'], $monthsSecond)) {
                 $key = array_search($match['month'], $monthsSecond) + 1;
-                return str_replace($match['month'], $key + 1, $dateString);
+                return str_replace($match['month'], $key, $dateString);
             }
             return $dateString;
         }, $dateString);
