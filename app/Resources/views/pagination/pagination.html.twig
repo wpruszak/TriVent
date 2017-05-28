@@ -49,6 +49,11 @@
         $.post(url, {}, function (response) {
             $('#pagination-div').html(response['pagination_widget']);
             $('#pagination-container').html(response['list']);
+            $('.modal-button').on('click', function (event) {
+                var activityId = $(event.currentTarget).data('activity-id');
+                getDetails(activityId);
+            });
         });
     }
+
 </script>

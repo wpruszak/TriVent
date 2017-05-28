@@ -19,10 +19,7 @@ class DefaultController extends Controller
     {
         $activities = $this->getDoctrine()->getRepository(Activity::class)->findAll();
 
-        $activityQuery = $this->getDoctrine()
-            ->getRepository(Activity::class)
-            ->createQueryBuilder('a')
-            ->getQuery();
+        $activityQuery = $this->getDoctrine()->getRepository(Activity::class)->getActivitiesQuery();
 
         $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
@@ -45,20 +42,23 @@ class DefaultController extends Controller
      */
     public function detailsAction(Activity $activity)
     {
-        $subtitle = $activity->getDateFrom()->format('d-m-Y');
-        if ($activity->getDateTo() !== null) {
-            $subtitle .= ' - ' . $activity->getDateTo()->format('d-m-Y');
+        if ($activity->getDateFrom() !== null) {
+            $subtitle = $activity->getDateFrom()->format('d-m-Y');
+            if ($activity->getDateTo() !== null) {
+                $subtitle .= ' - ' . $activity->getDateTo()->format('d-m-Y');
+            }
         }
 
-        return new JsonResponse([
-            'data' => [
+        $responseData = [
                 'title' => $activity->getTitle(),
                 'description' => $activity->getDescription(),
                 'place' => $activity->getPlace(),
-                'subtitle' => $subtitle,
                 'link' => $activity->getLink()
-            ]
-        ]);
+        ];
+        if (isset($subtitle) && !empty($subtitle)) {
+            $responseData['subtitle'] = $subtitle;
+        }
+        return new JsonResponse(['data' => $responseData]);
     }
 
     /**
@@ -70,10 +70,7 @@ class DefaultController extends Controller
      */
     public function paginationAction(Request $request)
     {
-        $activityQuery = $this->getDoctrine()
-            ->getRepository(Activity::class)
-            ->createQueryBuilder('a')
-            ->getQuery();
+        $activityQuery = $this->getDoctrine()->getRepository(Activity::class)->getActivitiesQuery();
 
         $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
