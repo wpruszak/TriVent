@@ -343,14 +343,14 @@
             $.post(url, function () {
 
             })
-                .done(function (response) {
-                    var data = response.data;
-                    $('.modal-title').html(data.title);
-                    $('.modal-subtitle').html(data.subtitle);
-                    $('.modal-body').html(data.description);
-                    $('.redirect-button').attr('href', data.link);
-                    $('#myModal').modal('show');
-                });
+                    .done(function (response) {
+                        var data = response.data;
+                        $('.modal-title').html(data.title);
+                        $('.modal-subtitle').html(data.subtitle);
+                        $('.modal-body').html(data.description);
+                        $('.redirect-button').attr('href', data.link);
+                        $('#myModal').modal('show');
+                    });
         }
         // MODAL END
     </script>
