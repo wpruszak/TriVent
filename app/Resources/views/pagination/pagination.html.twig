@@ -47,9 +47,8 @@
 <script>
     function paginate(url) {
         $.post(url, {}, function (response) {
-            console.log(response);
-            $('.navigation').html(response['pagination_widget']);
-            $('.pagination-container').html(response['list']);
+            $('#pagination-div').html(response['pagination_widget']);
+            $('#pagination-container').html(response['list']);
         });
     }
 </script>

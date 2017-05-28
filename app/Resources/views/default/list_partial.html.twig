@@ -1,22 +1,22 @@
 {% for activity in pagination %}
     {% if loop.index is divisible by(3) %}
-        <div class="row">
+        <div class="row" data-anim-type="fade-in-up">
     {% endif %}
-    <div class="col-md-4 marginbottom">
-        <div>Tytuł: {{ activity.title }}</div>
-        {% if not activity.dateFrom %}
-            <div>-</div>
-        {% elseif activity.dateTo %}
-            <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}
-                - {{ activity.dateTo|date('Y-m-d G:i') }}</div>
-        {% else %}
-            <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}</div>
-        {% endif %}
-        <div>{{ activity.place }}</div>
-        <div class="comment more">{{ activity.description }}</div>
-        <a class="navbar-brand" href="{{ activity.link }}"><span
-                    class="glyphicon glyphicon-chevron-right"
-                    aria-hidden="true"></span> View details </a>
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 modal-button" data-activity-id="{{ activity.id }}">
+        <div class="services-wrapper modal-button" data-activity-id="{{ activity.id }}">
+
+            <div>Tytuł: {{ activity.title }}</div>
+            {% if not activity.dateFrom %}
+                <div>-</div>
+            {% elseif activity.dateTo %}
+                <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}
+                    - {{ activity.dateTo|date('Y-m-d G:i') }}</div>
+            {% else %}
+                <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}</div>
+            {% endif %}
+            <div>{{ activity.place }}</div>
+            <div class="comment more">{{ activity.description }}</div>
+        </div>
     </div>
     {% if loop.index is divisible by(3) or loop.last %}
         </div>

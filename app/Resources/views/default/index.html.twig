@@ -72,38 +72,40 @@
                     <hr>
                 </div>
             </div>
-            {% for activity in pagination %}
-                {% if loop.index is divisible by(3) %}
-                    <div class="row" data-anim-type="fade-in-up">
-                {% endif %}
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                    <div class="services-wrapper modal-button" data-activity-id="{{ activity.id }}">
+            <div id="pagination-container">
+                {% for activity in pagination %}
+                    {% if loop.index is divisible by(3) %}
+                        <div class="row" data-anim-type="fade-in-up">
+                    {% endif %}
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="services-wrapper modal-button" data-activity-id="{{ activity.id }}">
 
-                        <div>Tytuł: {{ activity.title }}</div>
-                        {% if not activity.dateFrom %}
-                            <div>-</div>
-                        {% elseif activity.dateTo %}
-                            <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}
-                                - {{ activity.dateTo|date('Y-m-d G:i') }}</div>
-                        {% else %}
-                            <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}</div>
-                        {% endif %}
-                        <div>{{ activity.place }}</div>
-                        <div class="comment more">{{ activity.description }}</div>
-
+                            <div>Tytuł: {{ activity.title }}</div>
+                            {% if not activity.dateFrom %}
+                                <div>-</div>
+                            {% elseif activity.dateTo %}
+                                <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}
+                                    - {{ activity.dateTo|date('Y-m-d G:i') }}</div>
+                            {% else %}
+                                <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}</div>
+                            {% endif %}
+                            <div>{{ activity.place }}</div>
+                            <div class="comment more">{{ activity.description }}</div>
+                        </div>
                     </div>
-                </div>
-                {% if loop.index is divisible by(3) or loop.last %}
-                    </div>
-                {% endif %}
-            {% endfor %}
+                    {% if loop.index is divisible by(3) or loop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
-        <div class="navigation">
+        <div id="pagination-div">
             {{ knp_pagination_render(pagination) }}
         </div>
     </section>
 
-    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -119,7 +121,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-secondary redirect-button" target="_blank">Przejdź do portalu trójmiasto</a>
+                    <a href="#" class="btn btn-secondary redirect-button" target="_blank">Przejdź do portalu
+                        trójmiasto</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -250,10 +253,6 @@
                             lng: 18.424072265625
                         });
                     }
-
-                    console.log(event.latLng.lat());
-                    console.log(event.latLng.lng());
-
 
                     currentPositionMarker = new google.maps.Marker({
                         position: event.latLng,
