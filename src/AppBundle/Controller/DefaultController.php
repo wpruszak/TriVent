@@ -4,10 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Activity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class DefaultController extends Controller
 {
@@ -33,13 +34,38 @@ class DefaultController extends Controller
 
         $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
-            $request->get('page') ?? 1,
+            $request->get('page') ? $request->get('page') : 1,
             12
         );
 
         return $this->render('default/list.html.twig', [
             'activities' => $activities,
             'pagination' => $pagination
+        ]);
+    }
+
+    /**
+     * @Route("/details/{id}", name="activity_details")
+     * @ParamConverter("activity", class="AppBundle:Activity")
+     *
+     * @param $activity
+     * @return JsonResponse
+     */
+    public function detailsAction(Activity $activity)
+    {
+        $subtitle = $activity->getDateFrom()->format('d-m-Y');
+        if ($activity->getDateTo() !== null) {
+            $subtitle .= ' - ' . $activity->getDateTo()->format('d-m-Y');
+        }
+
+        return new JsonResponse([
+            'data' => [
+                'title' => $activity->getTitle(),
+                'description' => $activity->getDescription(),
+                'place' => $activity->getPlace(),
+                'subtitle' => $subtitle,
+                'link' => $activity->getLink()
+            ]
         ]);
     }
 
@@ -59,7 +85,7 @@ class DefaultController extends Controller
 
         $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
-            $request->get('page') ?? 1,
+            $request->get('page') ? $request->get('page') : 1,
             12
         );
 
