@@ -19,10 +19,16 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
                   integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
                   crossorigin="anonymous">
+
+            <link href="{{ asset('assets/css/vendor/ioniocss.css') }}" rel="stylesheet" />
+            <link href="{{ asset('assets/css/vendor/font-awesome.css') }}" rel="stylesheet" />
+            <link href="{{ asset('assets/css/vendor/fancybox.css') }}" rel="stylesheet" />
+            <link href="{{ asset('assets/css/vendor/animation.min.css') }}" rel="stylesheet" />
+            <link href="{{ asset('assets/css/vendor/green.css') }}" rel="stylesheet" />
         {% endblock %}
 
     </head>
-    <body>
+    <body style="background-image: url({{ asset('assets/img/gd.jpg') }}); background-repeat: no-repeat; background-attachment: fixed;">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

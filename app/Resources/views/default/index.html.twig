@@ -3,22 +3,32 @@
 {% block css %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/lists.css') }}">
 {% endblock %}
 
 {% block body %}
-    <div class="jumbotron">
+    <section id="title-section">
         <div class="container">
-            <h1 class="headline">TriVent</h1>
-            <p>Twoje Trójmiasto w jednym miejscu.</p>
-            <br>
-            <p>
-                <a class="btn btn-primary btn-lg" href="{{ path('default_list') }}" role="button">Przejdź do wydarzeń &raquo;</a>
-            </p>
+            <div style="text-align: center;">
+                <h1 style="display: inline-block;" class="headline">TriVent</h1>
+            </div>
+            <div class="row text-center header">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-anim-type="fade-in-up">
+                    <h3>Twoje Trójmiasto w jednym miejscu.</h3>
+                    <hr>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
     <section class="call-to-action">
         <div class="container">
+            <div class="row text-center header">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-anim-type="fade-in-up">
+                    <h3>Funkcje</h3>
+                    <hr>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-4">
 
@@ -39,8 +49,60 @@
     </section>
 
     <section class="flex-center marginbottom">
-        <input style="color: #4c4c4c;" id="google-maps-search" class="controls" type="text" placeholder="Szukaj lokalizacji">
-        <div style="height: 500px !important; width: 500px;" id="google-maps-container"></div>
+        <div class="container" style="text-align: center;">
+            <div class="row text-center header">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-anim-type="fade-in-up">
+                    <h3>Twoja lokalizacja</h3>
+                    <hr>
+                </div>
+            </div>
+            <div style="display: inline-block;">
+                <input style="color: #4c4c4c;" id="google-maps-search" class="controls" type="text"
+                       placeholder="Szukaj lokalizacji">
+                <div style="height: 500px !important; width: 500px;" id="google-maps-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="call-to-action">
+        <div class="container">
+            <div class="row text-center header">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-anim-type="fade-in-up">
+                    <h3>Wydarzenia</h3>
+                    <hr>
+                </div>
+            </div>
+            {% for activity in pagination %}
+                {% if loop.index is divisible by(3) %}
+                    <div class="row" data-anim-type="fade-in-up">
+                {% endif %}
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <div class="services-wrapper">
+
+                        <div>Tytuł: {{ activity.title }}</div>
+                        {% if not activity.dateFrom %}
+                            <div>-</div>
+                        {% elseif activity.dateTo %}
+                            <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}
+                                - {{ activity.dateTo|date('Y-m-d G:i') }}</div>
+                        {% else %}
+                            <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}</div>
+                        {% endif %}
+                        <div>{{ activity.place }}</div>
+                        <div class="comment more">{{ activity.description }}</div>
+                        <a class="navbar-brand" href="{{ activity.link }}"><span
+                                    class="glyphicon glyphicon-chevron-right"
+                                    aria-hidden="true"></span> View details </a>
+                    </div>
+                </div>
+                {% if loop.index is divisible by(3) or loop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </section>
 
     <footer class="footer">
@@ -53,12 +115,27 @@
 
 {% block javascripts %}
     <script>
+        function shortenText() {
+            var showChar = 100;
+            $('.more').each(function () {
+                var content = $(this).html();
+                if (content.length > showChar) {
+                    $(this).html(content.substr(0, showChar) + '...');
+                }
+            });
+        }
+        $(document).ready(function () {
+            shortenText();
+        });
+    </script>
+
+    <script>
         var map;
         var currentPositionMarker;
         var geocoder;
 
         var directionsDisplay;
-        
+
         function getLatLng() {
             return {
                 lat: currentPositionMarker.position.lat(),
@@ -73,7 +150,7 @@
                 destination: destination,
                 travelMode: google.maps.TravelMode["DRIVING"]
             };
-            directionsService.route(request, function(response, status) {
+            directionsService.route(request, function (response, status) {
                 if (status == 'OK') {
                     directionsDisplay.setDirections(response);
                 }
@@ -102,7 +179,7 @@
                 var searchBox = new google.maps.places.SearchBox(input);
                 map.controls[google.maps.ControlPosition.TOP].push(input);
 
-                map.addListener('bounds_changed', function() {
+                map.addListener('bounds_changed', function () {
                     searchBox.setBounds(map.getBounds());
                 });
 
@@ -112,7 +189,7 @@
                     title: 'Twoja lokalizacja.'
                 });
 
-                searchBox.addListener('places_changed', function() {
+                searchBox.addListener('places_changed', function () {
                     var places = searchBox.getPlaces();
 
                     if (places.length == 0) {
@@ -144,7 +221,7 @@
                 });
 
                 google.maps.event.addListener(map, 'click', function (event) {
-                    if(currentPositionMarker) {
+                    if (currentPositionMarker) {
                         currentPositionMarker.setMap(null);
                         calcRoute(event.latLng, {
                             lat: 54.236340214413424,
@@ -154,9 +231,6 @@
 
                     console.log(event.latLng.lat());
                     console.log(event.latLng.lng());
-
-
-
 
 
                     currentPositionMarker = new google.maps.Marker({

@@ -16,14 +16,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('default/index.html.twig');
-    }
-
-    /**
-     * @Route("/list", name="default_list")
-     */
-    public function listAction(Request $request)
-    {
         $activities = $this->getDoctrine()->getRepository(Activity::class)->findAll();
 
         $activityQuery = $this->getDoctrine()
@@ -33,11 +25,11 @@ class DefaultController extends Controller
 
         $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
-            $request->get('page') ?? 1,
+            $request->get('page') ? $request->get('page') : 1,
             12
         );
 
-        return $this->render('default/list.html.twig', [
+        return $this->render('default/index.html.twig', [
             'activities' => $activities,
             'pagination' => $pagination
         ]);
