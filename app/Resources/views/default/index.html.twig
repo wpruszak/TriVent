@@ -127,15 +127,8 @@
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <div class="services-wrapper modal-button" data-activity-id="{{ activity.id }}">
 
-                                <div>Tytuł: {{ activity.title }}</div>
-                                {% if not activity.dateFrom %}
-                                    <div>-</div>
-                                {% elseif activity.dateTo %}
-                                    <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}
-                                        - {{ activity.dateTo|date('Y-m-d G:i') }}</div>
-                                {% else %}
-                                    <div>Data: {{ activity.dateFrom|date('Y-m-d G:i') }}</div>
-                                {% endif %}
+                                <div><b>{{ activity.title }}</b></div>
+
                                 <div>{{ activity.place }}</div>
                                 <div class="comment more">{{ activity.description }}</div>
                             </div>
