@@ -77,7 +77,7 @@
                     <div class="row" data-anim-type="fade-in-up">
                 {% endif %}
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                    <div class="services-wrapper">
+                    <div class="services-wrapper modal-button" data-activity-id="{{ activity.id }}">
 
                         <div>Tytuł: {{ activity.title }}</div>
                         {% if not activity.dateFrom %}
@@ -90,9 +90,10 @@
                         {% endif %}
                         <div>{{ activity.place }}</div>
                         <div class="comment more">{{ activity.description }}</div>
-                        <a class="navbar-brand" href="{{ activity.link }}"><span
-                                    class="glyphicon glyphicon-chevron-right"
-                                    aria-hidden="true"></span> View details </a>
+                        {#<a class="navbar-brand" href="{{ activity.link }}"><span#}
+                                    {#class="glyphicon glyphicon-chevron-right"#}
+                                    {#aria-hidden="true"></span> View details </a>#}
+
                     </div>
                 </div>
                 {% if loop.index is divisible by(3) or loop.last %}
@@ -104,6 +105,30 @@
             {{ knp_pagination_render(pagination) }}
         </div>
     </section>
+
+    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <h6 class="modal-subtitle"></h6>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="map">
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-secondary redirect-button" target="_blank">Przejdź do portalu trójmiasto</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <footer class="footer">
         <div class="container">
@@ -241,6 +266,29 @@
                 });
             });
         }
+
+        // MODAL
+        $('.modal-button').on('click', function (event) {
+            var activityId = $(event.currentTarget).data('activity-id');
+            getDetails(activityId);
+        });
+
+        function getDetails(id) {
+            var url = "{{ path('activity_details', {'id': 'xxx'}) }}";
+            url = url.replace('xxx', id);
+            $.post(url, function () {
+
+            })
+                    .done(function (response) {
+                        var data = response.data;
+                        $('.modal-title').html(data.title);
+                        $('.modal-subtitle').html(data.subtitle);
+                        $('.modal-body').html(data.description);
+                        $('.redirect-button').attr('href', data.link);
+                        $('#myModal').modal('show');
+                    });
+        }
+        // MODAL END
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initMap"

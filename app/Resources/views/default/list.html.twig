@@ -86,26 +86,5 @@
         $(document).ready(function() {
             shortenText();
         });
-
-        $('.modal-button').on('click', function (event) {
-            var activityId = $(event.currentTarget).data('activity-id');
-            getDetails(activityId);
-        });
-
-        function getDetails(id) {
-            var url = "{{ path('activity_details', {'id': 'xxx'}) }}";
-            url = url.replace('xxx', id);
-            $.post(url, function () {
-
-            })
-            .done(function (response) {
-                var data = response.data;
-                $('.modal-title').html(data.title);
-                $('.modal-subtitle').html(data.subtitle);
-                $('.modal-body').html(data.description);
-                $('.redirect-button').attr('href', data.link);
-                $('#myModal').modal('show');
-            });
-        }
     </script>
 {% endblock %}
