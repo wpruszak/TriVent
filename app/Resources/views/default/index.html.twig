@@ -56,7 +56,6 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-
                         <span class="glyphicon glyphicon-list-alt glyphicon-large" aria-hidden="true"></span>
                         <h3>Znajdz wydarzenie w Trójmieście</h3>
                     </div>
@@ -331,9 +330,9 @@
             });
         }
 
-        // MODAL
         $('.modal-button').on('click', function (event) {
             var activityId = $(event.currentTarget).data('activity-id');
+            console.log(activityId);
             getDetails(activityId);
         });
 
