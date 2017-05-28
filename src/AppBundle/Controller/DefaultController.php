@@ -50,10 +50,10 @@ class DefaultController extends Controller
         }
 
         $responseData = [
-                'title' => $activity->getTitle(),
-                'description' => $activity->getDescription(),
-                'place' => $activity->getPlace(),
-                'link' => $activity->getLink()
+            'title' => $activity->getTitle(),
+            'description' => $activity->getDescription(),
+            'place' => $activity->getPlace(),
+            'link' => $activity->getLink()
         ];
         if (isset($subtitle) && !empty($subtitle)) {
             $responseData['subtitle'] = $subtitle;

@@ -5,10 +5,17 @@ namespace AppBundle\Services;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
+/**
+ * @package AppBundle\Services
+ */
 class ActivitiesDownloadService
 {
-    const RSA_ACTIVITIES_URL = 'http://rss.trojmiasto.pl/rss,23.xml';
+    const RSS_ACTIVITIES_URL = 'http://rss.trojmiasto.pl/rss,23.xml';
 
+    /**
+     * @param $value
+     * @return array
+     */
     public function getActivityDataArray($value)
     {
         $activityLinkData = $this->getActivityDataFromUrl($value['link']);
@@ -69,7 +76,7 @@ class ActivitiesDownloadService
 
     /**
      * @param Crawler $crawler
-     * @return string
+     * @return array
      */
     private function getActivityDates(Crawler $crawler)
     {
@@ -162,7 +169,7 @@ class ActivitiesDownloadService
      */
     public function getXmlDataAsArray()
     {
-        $xmlContent = file_get_contents(self::RSA_ACTIVITIES_URL);
+        $xmlContent = file_get_contents(self::RSS_ACTIVITIES_URL);
         $xmlEncoder = new XmlEncoder();
         return $xmlEncoder->decode($xmlContent, 'xml');
     }

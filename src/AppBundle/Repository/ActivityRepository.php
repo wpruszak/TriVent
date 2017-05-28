@@ -3,11 +3,12 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class ActivityRepository extends EntityRepository
 {
     /**
-     * @return array
+     * @return Query
      */
     public function getActivitiesQuery()
     {

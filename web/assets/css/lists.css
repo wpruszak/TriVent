@@ -103,13 +103,14 @@ body {
 }
 .modal-content {
     background-color: #3E4649;
-    -khtml-opacity:.90;
-    -moz-opacity:.90;
-    -ms-filter:”alpha(opacity=90)”;
-    filter:alpha(opacity=90);
-    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.9);
-    opacity:.90;
+    /*-khtml-opacity:.90;*/
+    /*-moz-opacity:.90;*/
+    /*-ms-filter:”alpha(opacity=90)”;*/
+    /*filter:alpha(opacity=90);*/
+    /*filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.9);*/
+    /*opacity:.90;*/
 }
+
 .modal-footer > button {
     color: #000000;
 }

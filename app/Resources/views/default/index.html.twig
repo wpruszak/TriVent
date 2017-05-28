@@ -20,18 +20,18 @@
                 </div>
                 <div class="modal-body">
                 </div>
-                <div class="map">
-
+                <div style="text-align: center">
+                    <div id="map" style="width:500px;height: 500px; display: inline-block;"></div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-secondary redirect-button" target="_blank">Przejdź do portalu
-                        trójmiasto</a>
+                    <a class="btn btn-default" target="_blank">Więcej Szczegółów</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="navbar navbar-inverse navbar-fixed-top scroll-me" style="background-color: rgba(0, 0, 0, 0.4);" id="menu">
+    <div class="navbar navbar-inverse navbar-fixed-top scroll-me" style="background-color: rgba(0, 0, 0, 0.4);"
+         id="menu">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -81,11 +81,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <span class="glyphicon glyphicon-list-alt glyphicon-large" aria-hidden="true"></span>
-                        <h3>Znajdz wydarzenie w Trójmieście</h3>
+                        <h3>Znajdź wydarzenie w Trójmieście</h3>
                     </div>
                     <div class="col-md-4">
                         <span class="glyphicon glyphicon-random glyphicon-large" aria-hidden="true"></span>
-                        <h3>Sprawdz najprostszy dojazd</h3>
+                        <h3>Sprawdź dojazd</h3>
                     </div>
                     <div class="col-md-4">
                         <span class="glyphicon glyphicon-glass glyphicon-large" aria-hidden="true"></span>
@@ -214,7 +214,6 @@
         function initMap() {
 
             navigator.geolocation.getCurrentPosition(function (location) {
-                directionsDisplay = new google.maps.DirectionsRenderer();
                 var center = {
                     lat: location.coords.latitude,
                     lng: location.coords.longitude
@@ -222,7 +221,7 @@
 
                 map = new google.maps.Map(document.getElementById('google-maps-container'), {
                     center: center,
-                    zoom: 8,
+                    zoom: 14,
                     mapTypeId: 'roadmap',
                     styles: [{
                         featureType: "administrative",
@@ -266,7 +265,6 @@
                         stylers: [{visibility: "simplified"}, {color: "#5f94ff"}, {lightness: 26}, {gamma: 5.86}]
                     }]
                 });
-                directionsDisplay.setMap(map);
 
                 geocoder = new google.maps.Geocoder();
 
@@ -331,7 +329,6 @@
 
         $('.modal-button').on('click', function (event) {
             var activityId = $(event.currentTarget).data('activity-id');
-            console.log(activityId);
             getDetails(activityId);
         });
 
@@ -341,15 +338,84 @@
             $.post(url, function () {
 
             })
-                    .done(function (response) {
-                        var data = response.data;
-                        $('.modal-title').html(data.title);
-                        $('.modal-subtitle').html(data.subtitle);
-                        console.log(data.subtitle);
-                        $('.modal-body').html(data.description);
-                        $('.redirect-button').attr('href', data.link);
-                        $('#myModal').modal('show');
+                .done(function (response) {
+                    var data = response.data;
+                    $('.modal-title').html(data.title);
+                    $('.modal-subtitle').html(data.subtitle);
+                    $('.modal-body').html(data.description);
+                    var routeMap = new google.maps.Map(document.getElementById('map'), {
+                        center: getLatLng(),
+                        zoom: 5,
+                        mapTypeId: 'roadmap',
+                        styles: [{
+                            featureType: "administrative",
+                            elementType: "all",
+                            stylers: [{visibility: "off"}]
+                        }, {
+                            featureType: "landscape",
+                            elementType: "all",
+                            stylers: [{visibility: "simplified"}, {hue: "#0066ff"}, {saturation: 74}, {lightness: 100}]
+                        }, {
+                            featureType: "poi",
+                            elementType: "all",
+                            stylers: [{visibility: "simplified"}]
+                        }, {
+                            featureType: "road",
+                            elementType: "all",
+                            stylers: [{visibility: "simplified"}]
+                        }, {
+                            featureType: "road.highway",
+                            elementType: "all",
+                            stylers: [{visibility: "off"}, {weight: .6}, {saturation: -85}, {lightness: 61}]
+                        }, {
+                            featureType: "road.highway",
+                            elementType: "geometry",
+                            stylers: [{visibility: "on"}]
+                        }, {
+                            featureType: "road.arterial",
+                            elementType: "all",
+                            stylers: [{visibility: "off"}]
+                        }, {
+                            featureType: "road.local",
+                            elementType: "all",
+                            stylers: [{visibility: "on"}]
+                        }, {
+                            featureType: "transit",
+                            elementType: "all",
+                            stylers: [{visibility: "simplified"}]
+                        }, {
+                            featureType: "water",
+                            elementType: "all",
+                            stylers: [{visibility: "simplified"}, {color: "#5f94ff"}, {lightness: 26}, {gamma: 5.86}]
+                        }]
                     });
+                    var service = new google.maps.places.PlacesService(routeMap);
+                    directionsDisplay = new google.maps.DirectionsRenderer();
+                    directionsDisplay.setMap(routeMap);
+                    service.textSearch({
+                        query: data.place
+                    }, function (places) {
+                        if(places.length == 0) {
+                            return;
+                        }
+                        var place = places[0];
+
+                        calcRoute(getLatLng(), place.geometry.location);
+                        setTimeout(function () {
+                            google.maps.event.trigger(routeMap, 'resize');
+                            routeMap.panTo(getLatLng());
+                            var bounds = new google.maps.LatLngBounds();
+                            bounds.extend(getLatLng());
+                            bounds.extend(place.geometry.location);
+                            routeMap.fitBounds(bounds);
+                        }, 200);
+                    });
+
+                    $('#map').trigger('resize');
+
+                    $('.redirect-button').attr('href', data.link);
+                    $('#myModal').modal('show');
+                });
         }
         // MODAL END
     </script>
