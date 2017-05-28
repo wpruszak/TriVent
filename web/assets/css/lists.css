@@ -87,6 +87,10 @@ body {
     background-color: #f5f5f5;
 }
 
+.navbar-inverse .navbar-nav li a:hover {
+    background: transparent !important;
+    border-bottom: 1px solid rgb(57, 171, 111) !important;
+}
 
 .marginbottom{
     margin-bottom: 20px;

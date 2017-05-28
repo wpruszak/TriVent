@@ -27,7 +27,7 @@ class DefaultController extends Controller
         $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
             $request->get('page') ? $request->get('page') : 1,
-            9
+            6
         );
 
         return $this->render('default/index.html.twig', [
@@ -78,7 +78,7 @@ class DefaultController extends Controller
         $pagination = $this->get('knp_paginator')->paginate(
             $activityQuery,
             $request->get('page') ? $request->get('page') : 1,
-            9
+            6
         );
 
         $params = ['pagination' => $pagination];
